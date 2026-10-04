@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Listing — Campus Market</title>
+  <meta name="description" content="View this listing on Campus Market, the student-only campus marketplace." />
+  <meta property="og:title" content="Listing — Campus Market" />
+  <meta property="og:description" content="Buy, sell, or rent within your campus network." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <a href="index.html" class="brand font-display">Campus Market</a>
+        <form class="search-form">
+          <div class="search-wrap">
+            <input type="text" class="search-input" placeholder="Search books, notes, electronics..." aria-label="Search listings" />
+            <kbd class="search-kbd font-mono">CMD + K</kbd>
+          </div>
+        </form>
+      </div>
+      <div class="navbar-right">
+        <a href="wishlist.html" class="icon-link" aria-label="Wishlist">
+          <span class="badge-count wishlist-badge-count hidden">0</span>
+          <span class="icon-link-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+            <span>Wishlist</span>
+          </span>
+        </a>
+        <a href="add-item.html" class="btn btn-dark">Sell an Item</a>
+        <a href="login.html" class="signin-link">Sign in</a>
+        <div class="user-menu hidden">
+          <button type="button" class="user-avatar">S</button>
+          <div class="user-dropdown">
+            <p class="user-dropdown-email"></p>
+            <a href="wishlist.html" class="user-dropdown-item">My Wishlist</a>
+            <a href="messages.html" class="user-dropdown-item">Messages</a>
+            <button type="button" class="user-dropdown-item danger sign-out-btn">Sign out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div id="detail-loading" class="detail-shell">
+      <div class="skeleton" style="height:1rem;width:12rem;"></div>
+      <div class="detail-grid" style="margin-top:1.5rem;">
+        <div class="item-media skeleton"></div>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div class="skeleton" style="height:2.5rem;width:66%;"></div>
+          <div class="skeleton" style="height:1.5rem;width:33%;"></div>
+          <div class="skeleton" style="height:8rem;width:100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="detail-notfound" class="not-found-shell hidden">
+      <h1 class="font-display">LISTING NOT FOUND</h1>
+      <p>This item may have been sold or taken off the board.</p>
+      <a href="index.html" class="btn btn-dark">Back to the Board</a>
+    </div>
+
+    <div id="detail-content" class="detail-shell hidden">
+      <nav class="breadcrumb">
+        <a href="index.html">Marketplace</a>
+        <span class="sep">/</span>
+        <span class="current" id="detail-category"></span>
+      </nav>
+
+      <div class="detail-grid">
+        <div class="detail-media">
+          <div class="item-media" id="detail-media"></div>
+          <span class="item-type-badge" id="detail-type-badge"></span>
+        </div>
+
+        <div class="detail-info">
+          <p class="detail-meta" id="detail-meta"></p>
+          <h1 class="font-display detail-title" id="detail-title"></h1>
+          <div class="detail-price-row">
+            <span class="detail-price" id="detail-price"></span>
+            <span class="detail-price-unit hidden" id="detail-price-unit">per week</span>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat-box">
+              <p class="stat-label">Condition</p>
+              <p class="stat-value" id="detail-condition"></p>
+            </div>
+            <div class="stat-box">
+              <p class="stat-label">Seller</p>
+              <p class="stat-value" id="detail-seller"></p>
+            </div>
+          </div>
+
+          <p class="detail-description" id="detail-description"></p>
+
+          <div class="status-banner hidden" id="status-banner"></div>
+
+          <div class="owner-panel hidden" id="owner-panel">
+            <p class="eyebrow">You're the seller</p>
+            <p class="owner-hint" id="owner-hint"></p>
+            <div class="owner-actions">
+              <button type="button" class="btn btn-dark" id="mark-done-btn"></button>
+              <button type="button" class="btn btn-outline hidden" id="mark-active-btn">MARK AVAILABLE AGAIN</button>
+            </div>
+          </div>
+
+          <div class="contact-card hidden" id="contact-card">
+            <p class="eyebrow">Seller contact</p>
+            <p class="contact-line"><span>Name</span><strong id="contact-name"></strong></p>
+            <p class="contact-line"><span>Email</span><a id="contact-email" href="#"></a></p>
+            <p class="contact-line hidden" id="contact-phone-row"><span>Phone</span><a id="contact-phone" href="#"></a></p>
+            <p class="contact-note">Meet on campus and check the item before paying.</p>
+          </div>
+
+          <div class="detail-actions" id="buyer-actions">
+            <button type="button" class="btn btn-primary" id="contact-seller-btn">CONTACT SELLER</button>
+            <button type="button" class="btn btn-outline" id="message-seller-btn">CHAT</button>
+            <button type="button" class="detail-wishlist-btn" id="detail-wishlist-btn" aria-label="Save to wishlist">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+            </button>
+          </div>
+
+          <p class="detail-posted" id="detail-posted"></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <a href="messages.html" class="chat-dock font-display" aria-label="Open messages">CHAT</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-api.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/item.js"></script>
+</body>
+</html>

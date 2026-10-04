@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register — Campus Market</title>
+  <meta name="description" content="Sign in or register with your college email to buy, sell, and rent on Campus Market." />
+  <meta property="og:title" content="Sign In — Campus Market" />
+  <meta property="og:description" content="Sign in or register with your college email to use Campus Market." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-public="1" data-default-tab="register">
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-left">
+        <a href="index.html" class="brand font-display">Campus Market</a>
+      </div>
+      <div class="navbar-right">
+        <a href="index.html" class="signin-link">Back to board</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="auth-shell">
+      <h1 class="font-display" id="auth-heading">JOIN THE BOARD</h1>
+      <p class="lead">Campus Market is for students only — your college email is your pass.</p>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" data-tab="login">LOGIN</button>
+        <button type="button" class="auth-tab-btn" data-tab="register">REGISTER</button>
+      </div>
+
+      <div id="registered-notice" class="info-box hidden">
+        <h2 class="font-display">CHECK YOUR INBOX</h2>
+        <p>We sent a confirmation link to your college email. Click it, then <a href="login.html" style="text-decoration:underline;">sign in</a>.</p>
+      </div>
+
+      <form id="login-form" class="auth-form">
+        <div>
+          <label class="field-label">College Email</label>
+          <input type="email" id="login-email" class="field-input" placeholder="alex@college.edu" maxlength="255" />
+        </div>
+        <div>
+          <label class="field-label">Password</label>
+          <input type="password" id="login-password" class="field-input" placeholder="Your password" maxlength="72" />
+        </div>
+        <p id="login-error" class="error-box hidden"></p>
+        <button type="submit" class="btn btn-primary" id="login-submit" style="width:100%;">SIGN IN</button>
+        <button type="button" class="link-btn" id="forgot-password-btn">Forgot password?</button>
+      </form>
+
+      <form id="register-form" class="auth-form hidden">
+        <div>
+          <label class="field-label">Full Name</label>
+          <input type="text" id="register-name" class="field-input" placeholder="Alex Sharma" maxlength="60" />
+        </div>
+        <div>
+          <label class="field-label">College Email</label>
+          <input type="email" id="register-email" class="field-input" placeholder="alex@college.edu" maxlength="255" />
+          <p class="field-hint">Must end in .edu or .ac.xx (e.g. .ac.in) and we email you a confirmation link — keeps the marketplace student-only.</p>
+        </div>
+        <div>
+          <label class="field-label">Password</label>
+          <input type="password" id="register-password" class="field-input" placeholder="At least 6 characters" maxlength="72" />
+        </div>
+        <p id="register-error" class="error-box hidden"></p>
+        <button type="submit" class="btn btn-primary" id="register-submit" style="width:100%;">CREATE ACCOUNT</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-api.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>
