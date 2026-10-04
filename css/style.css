@@ -356,6 +356,16 @@ main {
 .chat-dock:hover { background: var(--primary); }
 .chat-dock.visible { display: flex; }
 
+@media (max-width: 639px) {
+  .chat-dock {
+    bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
+    right: 1rem;
+    height: 3rem;
+    width: 3rem;
+    font-size: 1.25rem;
+  }
+}
+
 /* ---------------------------------- Browse page ---------------------------------- */
 
 .browse-grid {

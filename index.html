@@ -1,3 +1,161 @@
 <!doctype html>
-<meta charset="utf-8" />
-<script>location.replace('pages/index.html');</script>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f6e3c0" />
+  <title>Campus Market</title>
+  <noscript><meta http-equiv="refresh" content="0;url=pages/index.html" /></noscript>
+
+  <!-- Warm the cache for the next page while the splash is showing -->
+  <link rel="preload" as="image" href="images/cmbg.png" />
+  <link rel="prefetch" href="pages/index.html" />
+  <link rel="prefetch" href="css/style.css" />
+
+  <style>
+    /* ---------- Splash screen ---------- */
+    :root { --splash-ms: 4500ms; }          /* how long the image stays (4.5 s) */
+
+    html, body { margin: 0; height: 100%; background: #f6e3c0; overflow: hidden; }
+
+    .splash {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: #f6e3c0;                  /* same warm tone as the artwork's sky */
+      opacity: 1;
+      transition: opacity 0.45s ease;
+    }
+    .splash.leaving { opacity: 0; }
+
+    /* Blurred copy of the artwork — only visible where the main image doesn't reach (phones in portrait) */
+    .splash .bg,
+    .splash .fg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;                    /* PC / landscape: full image, fills the screen */
+      object-position: 50% 50%;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    /* .splash .bg {
+      filter: blur(22px) saturate(1.05);
+      transform: scale(1.15);
+      opacity: 0.55;                        /* washed toward the cream background so the fade looks clean 
+    } */
+    /* .splash .fg {
+      animation: splash-zoom var(--splash-ms) ease-out both;
+    }
+    @keyframes splash-zoom { from { scale: 1; } to { scale: 1.05; } } */
+
+    /* ---------- Mobile / portrait: focus on the MIDDLE of the image ----------
+       The image is 16:9, a phone is tall and narrow. Instead of squeezing the whole
+       picture in, we show only the centre (logo, name, tagline and the two students),
+       sized at 300vw so the title has comfortable side margins. The top and bottom edges
+       fade softly into the blurred background. */
+    @media (orientation: portrait) {
+      .splash .fg {
+        inset: auto;
+        left: 50%;
+        top: 50%;
+        width: 300vw;
+        max-width: none;
+        height: auto;
+        translate: -50% -50%;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
+                mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
+      }
+    }
+
+    /* ---------- Skip button + progress bar ---------- */
+    /* .skip {
+      position: absolute;
+      top: calc(env(safe-area-inset-top, 0px) + 14px);
+      right: 14px;
+      padding: 8px 16px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(20, 21, 29, 0.55);
+      color: #fff;
+      font: 500 13px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      -webkit-backdrop-filter: blur(6px);
+              backdrop-filter: blur(6px);
+    }
+    .skip:hover, .skip:focus-visible { background: rgba(20, 21, 29, 0.8); outline: none; } */
+
+    .bar {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 4px;
+      background: rgba(20, 21, 29, 0.12);
+    }
+    .bar i {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: #e8402f;                  /* matches the "MARKET" red */
+      transform-origin: left center;
+      transform: scaleX(0);
+    }
+    .splash.running .bar i { animation: splash-bar var(--splash-ms) linear forwards; }
+    @keyframes splash-bar { to { transform: scaleX(1); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .splash .fg { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="splash" id="splash">
+    <img class="bg" src="images/cmbg.png" alt="" aria-hidden="true" />
+    <img class="fg" id="splash-img" src="images/cmbg.png"
+         alt="Campus Market — Buy, Sell, Trade, Connect. Everything you need, right here on campus." />
+    <button type="button" class="skip" id="skip">Skip</button>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <script>
+    (function () {
+      var NEXT = 'pages/index.html';
+      var SHOW_MS = 4500;       // keep in sync with --splash-ms in the CSS
+      var FADE_MS = 450;
+      var splash = document.getElementById('splash');
+      var img = document.getElementById('splash-img');
+      var started = false, leaving = false;
+
+      function go() {
+        if (leaving) return;
+        leaving = true;
+        splash.classList.add('leaving');
+        setTimeout(function () { location.replace(NEXT); }, FADE_MS);
+      }
+
+      // Start the timer only once the picture is actually visible,
+      // so slow connections still get the full 4.5 seconds.
+      function start() {
+        if (started) return;
+        started = true;
+        splash.classList.add('running');
+        setTimeout(go, SHOW_MS);
+      }
+
+      if (img.complete && img.naturalWidth) start();
+      else {
+        img.addEventListener('load', start);
+        img.addEventListener('error', go);     // image missing -> don't block the site
+        setTimeout(function () { if (!started) go(); }, 8000);   // safety net
+      }
+
+      document.getElementById('skip').addEventListener('click', go);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') go();
+      });
+    })();
+  </script>
+</body>
+</html>
