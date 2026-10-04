@@ -102,7 +102,7 @@ async function apiPostJson(path, body) {
   }
   if (file === 'auth.php' && action === 'login') {
     const { data, error } = await sb.auth.signInWithPassword({ email: body.email, password: body.password });
-    if (error) fail(/confirm/i.test(error.message) ? 'Please confirm your email first — check your inbox for the link.' : 'Invalid email or password.');
+    if (error) fail(/confirm/i.test(error.message) ? 'Please confirm your email first — check your inbox for the link.' : /invalid login/i.test(error.message) ? 'Invalid email or password.' : error.message);
     return { user: toUser(data.user) };
   }
   if (file === 'auth.php' && action === 'logout') { await sb.auth.signOut(); return { ok: true }; }
